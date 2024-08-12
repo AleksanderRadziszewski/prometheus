@@ -1,0 +1,21 @@
+services:
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    restart: unless-stopped
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    command:
+      - --path.rootfs=/host
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus-cfg.yaml:/etc/prometheus/prometheus.yml"
+      - "prometheus_data:/prometheus"
+
+volumes:
+  prometheus_data:
