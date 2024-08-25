@@ -1,6 +1,12 @@
 global:
   scrape_interval:     15s
 
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+           - alertmanager:9093
+
 rule_files:
 - /cfg/rules.yaml
 - /cfg/alerts.yaml
@@ -14,6 +20,9 @@ scrape_configs:
       - targets: ["node_exporter:9100"]
   - job_name: example-app
     static_configs:
-      - targets: ["example-app:8080"]
+      - targets: ["test-app:8080"]
         labels:
           env: test
+      - targets: ["prod-app:8080"]
+        labels:
+          env: prod

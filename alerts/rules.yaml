@@ -1,7 +1,0 @@
-groups:
-- name: metrics
-  rules:
-  - record: instance:memory_utilized:MB
-    expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / 1024 / 1024
-  - record: instance:disk_utilized:GB
-    expr: (node_filesystem_size_bytes - node_filesystem_avail_bytes) / 1024 / 1024 / 1024
