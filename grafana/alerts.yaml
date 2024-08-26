@@ -1,0 +1,19 @@
+groups:
+- name: metrics
+  rules:
+  - alert: CPUHighUsage
+    expr: (1 - avg by (instance)(rate(node_cpu_seconds_total{mode="idle",}[1m]))) * 100 > 50
+    for: 1m
+    labels:
+      severity: medium
+    annotations:
+      summary: "CPU usage on {{ $labels.instance }} is over 50%"
+      description: "An instance {{ $labels.instance }} CPU consumption is too high - ({{ $value }})"
+
+- name: example-app
+  rules:
+  - alert: TooMany5xxResponses
+    expr: env:http_requests_5xx:percentage*100 >= 30
+    for: 1m
+    annotations:
+      description: "Too many 5xx responses on env {{ $labels.env }} - {{ $value }}"
